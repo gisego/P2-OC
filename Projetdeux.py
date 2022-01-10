@@ -65,13 +65,7 @@ def download_image(image_url, category):
     Path(path).mkdir(parents=True, exist_ok=True)
     wget.download(image_url, path, bar=None)
 
-def info_from_category(links):
-    infos = []
-    for link in links:
-        book_info = book(link)
-        infos.append(book_info)
-        download_image(book_info['image_url'], book_info['category'])
-    return infos
+
 
 # # # Etape 4 Ecrire # une fonction livre(lien_un_livre) qui recupere les infos du livre  et retourne les infos du livre dans un dictionnaire.
 #
@@ -108,8 +102,18 @@ def book(book_link):
     review_rating = tds[6].text
     dictionnaire['review_Rating'] = review_rating
     return dictionnaire
-#
-# # # # Etape 5 Ecrire une fonction write_csv(infos_livre, nom categorie) qui ouvre un fichier csv avec pour nom la categorie passé en parametre, puis enregistre les infos "infos_livre" recu dans
+
+#Etape 5 Ecrire fonction qui reagroupe les fonctions download_image et book(book_link) de chaque category
+
+def info_from_category(links):
+    infos = []
+    for link in links:
+        book_info = book(link)
+        infos.append(book_info)
+        download_image(book_info['image_url'], book_info['category'])
+    return infos
+
+# # # # Etape 6 Ecrire une fonction write_csv(infos_livre, nom categorie) qui ouvre un fichier csv avec pour nom la categorie passé en parametre, puis enregistre les infos "infos_livre" recu dans
 # # # # le csv.
 # #Entetes
 titles =['product_page_url',
@@ -143,7 +147,7 @@ def write_csv(info_book, name_category):
 
 
 
-# # # # Etape 6 Organiser toutes les fonctions dans le main du fichier.
+# # # # Etape 7 Organiser toutes les fonctions dans le main du fichier.
 if __name__ == '__main__':
     categories = category()
     all_categories = categories.keys()
